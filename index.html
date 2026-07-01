@@ -237,6 +237,15 @@ document.getElementById('hsub').textContent =
 document.getElementById('foot').textContent =
   `출처: ${DATA.meta.source} · 빌드 ${DATA.meta.built} · ※ (주)동방아그로 제품 혼용 정보`;
 
+// 누적 방문수 표시 (Abacus 무료 카운터, 계정 불필요)
+fetch('https://abacus.jasoncameron.dev/hit/dba-honyong-2026/visits')
+  .then(r => r.ok ? r.json() : Promise.reject())
+  .then(d => {
+    if (d && typeof d.value === 'number')
+      document.getElementById('foot').textContent += ` · 누적 방문 ${d.value.toLocaleString()}회`;
+  })
+  .catch(() => {});   // 카운터 서비스 오류 시 조용히 무시
+
 const $ = s => document.querySelector(s);
 const el = (t,c,h)=>{const e=document.createElement(t); if(c)e.className=c; if(h!=null)e.innerHTML=h; return e;};
 const esc = s => (s+"").replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));
